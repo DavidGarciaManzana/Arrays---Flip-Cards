@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code2</title>
+</head>
+<body>
+<pre><p><code>
+const solution = mtrx => {
+if(mtrx.some(item => item.includes(">") && item.includes("x") )) {
+let arrayWanted = mtrx.find(i => i.includes(">"))
+let upPosition = arrayWanted.findIndex(j => j === ">")
+let xPosition = arrayWanted.findIndex(k => k === "x")
+if (upPosition < xPosition) {
+return true
+} else {
+return false
+}
+} else {
+return false}
+}
+</code></p></pre>
+</body>
+</html>

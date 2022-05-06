@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code3</title>
+</head>
+<body>
+<pre><p><code>
+function squareOrSquareRoot(array) {
+    let answer = []
+    array.forEach (
+        function(item){
+            if(Number.isInteger(Math.sqrt(item))) {
+                answer.push(Math.sqrt(item))
+            } else {
+                answer.push(item**2)
+            }
+        })
+    return answer;
+}
+</code></p></pre>
+</body>
+</html>

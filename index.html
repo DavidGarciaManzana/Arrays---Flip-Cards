@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Algorithms to solve specific problems">
+    <title>Arrays</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+
+<div class="cards-wrapper">
+    <div class="card-container">
+        <div class="card main">
+            <div class="card-contents card-front main">
+                <div class="card-depth">
+                    <h1>Code Challenges</h1>
+                    <hr>
+                    <p>Arrays</p>
+                    <p>An array is an ordered list of values that you refer to with a name and an index.</p>
+                    <br>
+                    <p>let arr = [element0, element1, ..., elementN]</p>
+                </div>
+            </div>
+            <div class="card-contents card-back main">
+                <div class="card-depth">
+                    <h1>Instructions for the challenges</h1>
+                    <hr>
+                    <p>1.-Subscribe to <a href="https://codewars.com" id="codewars-1" target="_blank">codewars.com</a></p>
+                    <p>2.-Click on "Copy code" from the backpart of any card below</p>
+                    <p>3.-Visit the codewars link on the back of the challenge card</p>
+                    <p>4.-Erase everything at the "Solution" section in codewars.com</p>
+                    <p>5.-Paste the code at the "Solution" section</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="cards-wrapper">
+    <div class="card-container item">
+        <div class="card item">
+            <div class="card-contents card-front item">
+                <div class="card-depth item">
+                    <h2>The supermarket Queue</h2>
+                    <hr>
+                    <p>Javascript (NodeJS - v8.1.3)</p>
+                    <div class="project-image"><img src="media/images/supermarketq.webp" alt="Supermarket Queue"></div>
+
+
+                </div>
+            </div>
+            <div class="card-contents card-back item">
+                <div class="card-depth item">
+                    <h2>There is a queue for the self-checkout tills at the supermarket. Your task is write a function
+                        to calculate the total time required for all the customers to check out!</h2>
+                    <hr>
+                    <p><a href="https://www.codewars.com/kata/57b06f90e298a7b53d000a86"  id="codewars-2" target="_blank">https://www.codewars.com<br>/kata/57b06f90e298a7b53d000a86</a>
+                    </p>
+                    <button class="button-grow" id="buttoncode1">Copy code</button>
+                    <p class="code" id="code1">
+                        // My solution - by Brian David Garcia Manzanarez
+                        let isFirstRunFlag = false
+                        let noMoreCustomersFlag = false
+                        let fastestNextCustomer = ""
+                        let totalTimeSpend = 0
+                        function queueTime(customers, n) {
+                        if (n === 1) {
+                        return customers.reduce((sum, element) => sum + element, 0)
+                        } else if (n >= customers.length) {
+                        customers.sort((a, b) => b - a);
+                        return customers[0]
+                        } else {
+                        //Set arrays for customers (2 different ones, one that refers to the customers in tills and the
+                        other one referring to the customers waiting in line)
+                        let customersTills = [];
+                        customersTills.push(customers.slice(0, n))
+                        let customersTillsFinalArray = customersTills.reduce((acc, val) => acc.concat(val), [])
+                        let customersWaitingInLine = [];
+                        customersWaitingInLine.push(customers.slice(n, customers.length))
+                        let customersWaitingInLineFinalArray = customersWaitingInLine.reduce((acc, val) =>
+                        acc.concat(val), [])
+                        let newArray = [];
+                        //The next function is where the magic happens
+                        let supermarketTill = (CustomerTillPaymentLine) => {
+                        //Orders the array, so I can access to the first value (the lower one)
+                        let correctOrder = CustomerTillPaymentLine.sort((a, b) => a - b);
+                        //If it's the fist time you access here, It saves the lower value at fastestNextCustomer
+                        //If the Till has been updated, adds the next lower value to tw previous one (updating the time
+                        needed to finish the line)
+                        if (isFirstRunFlag === false) {
+                        fastestNextCustomer = correctOrder[0];
+                        totalTimeSpend += fastestNextCustomer;
+                        }
+                        //Subtract one number from each element of the customers at tills array (simulating the time
+                        spending for they to pay)
+                        newArray = CustomerTillPaymentLine.map(function (item) {
+                        return item -= 1
+                        });
+                        //If there's no more clients waiting in line and every customer on till has finished, it
+                        finishes the function, returning the final answer
+                        if (customersWaitingInLineFinalArray.length === 0 && newArray.every((item) => item === 0)) {
+                        return totalTimeSpend;
+                        }
+                        //Change this, so you can't modify the variable totalTimeSpend unless it exist a zero on the
+                        till
+                        isFirstRunFlag = true
+                        //Set the conditions to detect if there's one zero or if every client in the tills has a zero as
+                        value
+                        //(Letting know if they finished there time, and need to be replaced)
+                        let isThereAZero = newArray.some(item => item === 0)
+                        let noneIsZero = newArray.every(item => item !== 0)
+                        //If none of them iz zero just continue subtracting numbers
+                        if (noneIsZero) {
+                        supermarketTill(newArray)
+                        }
+                        //If theres a zero:
+                        if (isThereAZero) {
+                        //Deletes all the zeros in the array
+                        newArray = newArray.filter((item) => item > 0)
+                        //Add the next client in line to the till, until all the available tills are covered
+                        //and deletes the client from the waiting line array
+                        let addItem = () => {
+                        if (newArray.length < n && customersWaitingInLineFinalArray.length > 0) {
+                        newArray.push(customersWaitingInLineFinalArray[0])
+                        customersWaitingInLineFinalArray.splice(0, 1)
+                        addItem()
+                        //You change this so the next lower value in the till can be saved at the variable
+                        totalTimeSpend (because it's going to access to that part)
+                        isFirstRunFlag = false
+                        }
+                        //If there's no more clients waiting in line, it adds the higher number remaining in the till
+                        //to the total time spend (final answer)
+                        if (customersWaitingInLineFinalArray.length === 0 && !noMoreCustomersFlag) {
+                        //It's important to change the flag to true, because the next time doesn't access here
+                        noMoreCustomersFlag = true
+                        totalTimeSpend += Math.max(...newArray)
+                        return totalTimeSpend
+                        }
+                        }
+                        addItem()
+                        //If there is more clients in line, this happens (this is the original state of this variable)
+                        if (!noMoreCustomersFlag) {
+                        supermarketTill(newArray)
+                        }
+                        }
+                        }
+                        supermarketTill(customersTillsFinalArray)
+                        //At the end it changes all the values to the original ones to repeat the process with the next
+                        test.
+                        isFirstRunFlag = false
+                        noMoreCustomersFlag = false
+                        let finalElement = totalTimeSpend
+                        totalTimeSpend = 0
+                        //Returns the final answer
+                        return finalElement
+                        }
+                        }
+                    </p>
+                    <a href="code1.html" target="_blank" id="code-1">View Code</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cards-wrapper">
+    <div class="card-container">
+        <div class="card">
+            <div class="card-contents card-front item">
+                <div class="card-depth item">
+                    <h2>Game Hit the target</h2>
+                    <hr>
+                    <p>Javascript (NodeJS - v14.x)</p>
+                    <div class="project-image"><img src="media/images/target.webp" alt="Target game"></div>
+                </div>
+            </div>
+            <div class="card-contents card-back item">
+                <div class="card-depth item">
+                    <h2>Given a matrix n x n (2-7), determine if the arrow is directed to the target (x).
+                        There will be only 1 arrow '>' and 1 target 'x'
+                        An empty spot will be denoted by a space " ", the target with a cross "x", and the scope
+                        ">"</h2>
+                    <hr>
+                    <p><a href="https://www.codewars.com/kata/5ffc226ce1666a002bf023d2" id="codewars-3" target="_blank">https://www.codewars.com<br>/kata/5ffc226ce1666a002bf023d2</a>
+                    </p>
+                    <button class="button-grow" id="buttoncode2">Copy code</button>
+                    <p class="code" id="code2">
+                        const solution = mtrx => {
+                        if(mtrx.some(item => item.includes(">") && item.includes("x") )) {
+                        let arrayWanted = mtrx.find(i => i.includes(">"))
+                        let upPosition = arrayWanted.findIndex(j => j === ">")
+                        let xPosition = arrayWanted.findIndex(k => k === "x")
+                        if (upPosition < xPosition) {
+                        return true
+                        } else {
+                        return false
+                        }
+                        } else {
+                        return false}
+                        }
+                    </p>
+                    <a href="code2.html" target="_blank" id="code-2">View Code</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cards-wrapper">
+    <div class="card-container">
+        <div class="card">
+            <div class="card-contents card-front item">
+                <div class="card-depth item">
+                    <h2>To square(root) or not to square(root)</h2>
+                    <hr>
+                    <p>Javascript (NodeJS - v10.x)</p>
+                    <div class="project-image"><img src="media/images/math.webp" alt="Math image" class="special-image"></div>
+                </div>
+            </div>
+            <div class="card-contents card-back items ">
+                <div class="card-depth items">
+                    <h2 class="smaller">Write a method, that will get an integer array as parameter and will process every number from
+                        this array.
+                        Return a new array with processing every number of the input-array like this:
+                        If the number has an integer square root, take this, otherwise square the number.</h2>
+                    <hr>
+                    <p><a href="https://www.codewars.com/kata/57f6ad55cca6e045d2000627" id="codewars-4" target="_blank">https://www.codewars.com<br>/kata/57f6ad55cca6e045d2000627</a>
+                    </p>
+                    <button class="button-grow" id="buttoncode3">Copy code</button>
+                    <p class="code" id="code3">
+                        function squareOrSquareRoot(array) {
+                        let answer = []
+                        array.forEach (
+                        function(item){
+                        if(Number.isInteger(Math.sqrt(item))) {
+                        answer.push(Math.sqrt(item))
+                        } else {
+                        answer.push(item**2)
+                        }
+                        })
+                        return answer;
+                        }
+                    </p>
+                    <a href="code3.html" target="_blank" id="code-3">View Code</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+@import "base/base";
+@import "themes/colors";
+@import "utils/mixins";
+@import "components/cards";
+
+body {
+  background: linear-gradient(0deg, rgba(172,109,229,1) 0%, rgba(172,109,229,1) 50%, rgba(103,100,228,1) 100%);
+}
+
+h1, h2, h3, h4, p {
+  color: black;
+  font-family: Arial, sans-serif;
+}
+
+
+
+
+
+
+
+

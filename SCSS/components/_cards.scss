@@ -1,0 +1,158 @@
+.cards-wrapper {
+  @include card-wrapper
+}
+
+.card-container {
+  @include card-container
+}
+
+.card-contents {
+  @include card-contents;
+
+  &.item {
+    justify-content: flex-start;
+
+  }
+
+  & h2 {
+    font-size: .8rem;
+    width: 16rem;
+  }
+
+  & h2.smaller {
+    font-size: .7rem;
+  }
+
+
+  &.card-back p {
+    margin-bottom: .8rem;
+    font-size: 1rem;
+    max-width: 25rem;
+    width: 16rem;
+  }
+
+  & p {
+    font-size: 1.2rem;
+    margin-bottom: 4rem;
+  }
+
+  &.main p {
+    margin-bottom: 1rem;
+  }
+
+}
+
+.card {
+  @include card;
+
+  & .main {
+
+
+    & h1 {
+      font-size: 1.5rem;
+      width: 35rem;
+
+    }
+
+    & p {
+      font-size: 1.5rem;
+      display: block;
+      width: 15rem;
+    }
+  }
+
+
+}
+
+
+.rotated {
+  @include rotated
+}
+
+.card-contents.card-back.main {
+  & p {
+    font-size: 1rem;
+  }
+}
+
+.card-contents.card-back h1 {
+  font-size: 1rem;
+  width: 25rem;
+  position: relative;
+  left: 5rem;
+}
+
+.card-depth {
+  @include card-depth;
+
+  &.item {
+    position: relative;
+    top: 2rem;
+  }
+}
+
+.card-front {
+  @include card-front
+}
+
+.card-back {
+  @include card-back;
+
+}
+
+.main {
+  min-width: 20rem;
+  min-height: 35rem;
+  @media (min-width: 425px) {
+    min-width: 30rem;
+    min-height: 25rem;
+  }
+  @media (min-width: 768px) {
+    min-width: 35rem;
+    min-height: 30rem;
+  }
+  @media (min-width: 2000px) {
+    min-width: 70rem;
+    min-height: 45rem;
+  }
+
+  & .card-back {
+    text-align: left;
+  }
+
+}
+
+.project-image {
+  width: 13rem;
+  position: relative;
+  top: -3rem;
+
+
+  & img {
+    border-radius: 25px;
+    margin: 1.5rem;
+  }
+}
+
+.code {
+  display: none;
+}
+
+.button-grow {
+  width: 10rem;
+  height: 4rem;
+  display: block;
+  margin: 0 auto 1rem;
+  color: var(--color-darker);
+  background-color: transparent;
+  border: 1px solid var(--color-darker);
+  border-radius: 4px;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.button-grow:hover {
+  transform: scale(1.2);
+}
+
